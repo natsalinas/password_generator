@@ -1,43 +1,44 @@
 import random 
-import PySimpleGUI as pg 
+import tkinter as tk
 
 chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*(),'
-font = ("Arial", 16)
 
+# function to generate password 
 def generate_password(length):
     passwords = ''
     for c in range(length):
         passwords += random.choice(chars)
-    
-    return passwords
 
-# Set a theme
-pg.theme("BluePurple")
+    # deletes any text that might be in textbox 
+    textbox.delete("1.0", "end")  
+    # inserts new password in textbox 
+    textbox.insert(tk.END, passwords)
 
-# Display generated password in Text box
-output = pg.Text(size=(20,1),key='-text-', font=font)
+# create window 
+window = tk.Tk()
 
-# Create Layout 
-layout = [
-    [output],
-    [pg.Slider(range=(8,32), default_value=12, expand_x=True, enable_events=True, orientation='horizontal')],
-    [pg.Button("Generate"), pg.Button("Cancel")]
-]
+window.geometry("500x250")
+window.title("Password Generator App")
 
-# Create Window 
-window =  pg.Window("Password Generator", layout)
+label = tk.Label(window, text="Generate a password", font=('Arial',18))
+label.pack(padx=20, pady=5)
 
-# Event Loop 
-while True:
-    event, values = window.read()
-    print(event, values)
-    new_password = generate_password(int(values[0]))
-    output.update(value=new_password)
-    if event == "Cancel" or event == pg.WIN_CLOSED:
-        break 
+# textbox to hold generated password 
+textbox = tk.Text(window, height=1, font=('Arial', 16))
+textbox.pack(padx=10, pady=5)
 
-# Close Window 
-window.close()
+label = tk.Label(window, text="Select password length", font=('Arial',14))
+label.pack(padx=20)
 
+# slider to determine password length 
+slider = tk.Scale(from_=8, to=50, orient='horizontal')
+password_length = slider.get()
+slider.pack()
+
+button = tk.Button(window, text="Generate", font=('Arial', 18), command=lambda: generate_password(slider.get()))
+button.pack(padx=10, pady=20)
+
+new_password = generate_password(password_length)
+window.mainloop()
 
  
