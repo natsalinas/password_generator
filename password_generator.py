@@ -2,6 +2,7 @@ import random
 import PySimpleGUI as pg 
 
 chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*(),'
+font = ("Arial", 16)
 
 def generate_password(length):
     passwords = ''
@@ -14,7 +15,7 @@ def generate_password(length):
 pg.theme("BluePurple")
 
 # Display generated password in Text box
-output = pg.Text()
+output = pg.Text(size=(20,1),key='-text-', font=font)
 
 # Create Layout 
 layout = [
